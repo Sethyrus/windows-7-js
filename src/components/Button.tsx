@@ -1,5 +1,7 @@
-const Button = (props: ButtonProps) => {
-  return <button onClick={props.onClick}>{props.text}</button>;
-};
+import { ButtonProps } from "../types";
+
+const Button = (props: ButtonProps) => (
+  <button onClick={props.onClick}>{props.text}</button>
+);
 
 export default Button;

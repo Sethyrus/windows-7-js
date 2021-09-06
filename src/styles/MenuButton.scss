@@ -1,41 +1,40 @@
-.start-button-container {
+.start-menu-button-container {
   position: relative;
 
-  .start-button {
+  .start-menu-button {
     position: relative;
     height: 38px;
     width: 62px;
-  }
 
-  .start-button .hover,
-  .start-button .active {
-    opacity: 0;
-  }
+    .hover,
+    .active {
+      opacity: 0;
+    }
 
-  .start-button:hover .hover {
-    opacity: 1;
-  }
+    &:hover .hover {
+      opacity: 1;
+    }
 
-  .start-button:hover .default,
-  .start-button:hover .active {
-    opacity: 0;
-  }
+    &:hover .default,
+    &:hover .active {
+      opacity: 0;
+    }
 
-  .start-button:active .active {
-    opacity: 1;
-  }
+    &:active .active {
+      opacity: 1;
+    }
+    &:active .default,
+    &:active .hover {
+      opacity: 0;
+    }
 
-  .start-button:active .default,
-  .start-button:active .hover {
-    opacity: 0;
-  }
-
-  .button-icon {
-    transition: 0.2s;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+    .start-menu-button-icon {
+      transition: 0.2s;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
   }
 }

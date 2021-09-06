@@ -1,5 +1,5 @@
 import "../styles/TaskBar.scss";
-import MenuButton from "./MenuButton";
+import MenuButton from "./StartMenuButton";
 
 const TaskBar = () => {
   return (

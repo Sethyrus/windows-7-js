@@ -1,11 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.scss';
-import Desktop from './components/Desktop';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.scss";
+import Desktop from "./components/Desktop";
+import { Provider } from "react-redux";
+import store from "./state";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Desktop />
+    <Provider store={store}>
+      <Desktop />
+    </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

@@ -1,20 +1,28 @@
-import { useState } from "react";
 import "../styles/MenuButton.scss";
 import StartMenu from "./StartMenu";
 import menu_icon from "../assets/images/menu_icon.png";
 import menu_icon_hover from "../assets/images/menu_icon_hover.png";
 import menu_icon_active from "../assets/images/menu_icon_active.png";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../types";
+import { toggleStartMenu } from "../state/actions/start-menu";
 
-const MenuButton = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+const StartMenuButton = () => {
+  const dispath = useDispatch();
+  const startMenuOpen: boolean = useSelector(
+    (state: RootState) => state.startMenu.open
+  );
 
   return (
-    <div className="start-button-container">
-      <div className="start-button" onClick={() => setMenuOpen(!menuOpen)}>
-        <div className="button-icon default">
+    <div className="start-menu-button-container">
+      <div
+        className="start-menu-button"
+        onClick={() => dispath(toggleStartMenu())}
+      >
+        <div className="start-menu-button-icon default">
           <img width={62} height={38} src={menu_icon} alt="Menu Icon" />
         </div>
-        <div className="button-icon hover">
+        <div className="start-menu-button-icon hover">
           <img
             width={62}
             height={38}
@@ -22,7 +30,7 @@ const MenuButton = () => {
             alt="Menu Icon Hover"
           />
         </div>
-        <div className="button-icon active">
+        <div className="start-menu-button-icon active">
           <img
             width={62}
             height={38}
@@ -32,9 +40,9 @@ const MenuButton = () => {
         </div>
       </div>
 
-      <StartMenu open={menuOpen} />
+      <StartMenu open={startMenuOpen} />
     </div>
   );
 };
 
-export default MenuButton;
+export default StartMenuButton;
