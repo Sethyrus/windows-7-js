@@ -1,5 +1,8 @@
 export const ACTIONS = {
   START_MENU: {
     TOGGLE_START_MENU: 'TOGGLE_START_MENU',
+  },
+  WINDOWS: {
+    OPEN_WINDOW: 'OPEN_WINDOW'
   }
 }
