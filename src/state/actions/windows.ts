@@ -1,8 +1,7 @@
 import store from '..';
 import { ACTIONS } from '../../consts';
-import { Window, WindowsReducerDispatch } from '../../types';
 
-export const openWindow = (window: Window) => async (dispatch: WindowsReducerDispatch) =>
+export const openWindow = (window: AppWindow) => async (dispatch: WindowsReducerDispatch) =>
 {
   const windowsState = store.getState().windows;
 

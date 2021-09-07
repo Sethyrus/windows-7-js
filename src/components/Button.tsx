@@ -1,5 +1,3 @@
-import { ButtonProps } from "../types";
-
 const Button = (props: ButtonProps) => (
   <button onClick={props.onClick}>{props.text}</button>
 );

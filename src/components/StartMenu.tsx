@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { openWindow } from "../state/actions/windows";
 import "../styles/StartMenu.scss";
-import { StartMenuProps } from "../types";
 
 const StartMenu = (props: StartMenuProps) => {
   const dispatch = useDispatch();

@@ -4,9 +4,35 @@ interface ButtonProps
   onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export interface RootState
+interface ClickOutsideProps
 {
-  startMenu: StartMenuState
+  onClick(e: MouseEvent): void;
+  children: React.ReactElement;
+}
+
+interface ContextMenuState
+{
+  open: boolean;
+  position: Position;
+}
+
+interface ContextMenuReducerAction
+{
+  type: string;
+  payload: ContextMenuState;
+}
+
+interface Position
+{
+  x: number;
+  y: number;
+}
+
+interface RootState
+{
+  startMenu: StartMenuState;
+  windows: WindowsState;
+  contextMenu: ContextMenuState;
 }
 
 interface StartMenuProps
@@ -14,7 +40,7 @@ interface StartMenuProps
   open: boolean;
 }
 
-export interface StartMenuReducerAction
+interface StartMenuReducerAction
 {
   type: string;
   payload: StartMenuState;
@@ -25,12 +51,15 @@ interface StartMenuState
   open: boolean;
 }
 
-export interface Window
+interface AppWindow
 {
   id: string;
+  // position: Position;
+  // active: boolean;
+  // maximized: boolean;
 }
 
-export interface WindowsReducerAction
+interface WindowsReducerAction
 {
   type: string;
   payload: WindowsState;
@@ -38,9 +67,11 @@ export interface WindowsReducerAction
 
 interface WindowsState
 {
-  windows: Window[];
+  windows: AppWindow[];
 }
 
-export type StartMenuReducerDispatch = (action: StartMenuReducerAction) => void;
+type ContextMenuReducerDispatch = (action: ContextMenuReducerAction) => void;
 
-export type WindowsReducerDispatch = (action: WindowsReducerAction) => void;
+type StartMenuReducerDispatch = (action: StartMenuReducerAction) => void;
+
+type WindowsReducerDispatch = (action: WindowsReducerAction) => void;

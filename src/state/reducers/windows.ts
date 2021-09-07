@@ -1,5 +1,4 @@
 import { ACTIONS } from '../../consts';
-import { WindowsReducerAction, WindowsState } from '../../types';
 
 const initialState: WindowsState = { windows: [] };
 

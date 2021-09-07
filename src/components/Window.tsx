@@ -1,6 +1,6 @@
 function Window() {
   return (
-    <div>
+    <div onClick={(e) => {}}>
       
     </div>
   )

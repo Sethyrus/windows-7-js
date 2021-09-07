@@ -1,5 +1,4 @@
 import { ACTIONS } from '../../consts';
-import { StartMenuReducerAction, StartMenuState } from '../../types';
 
 const initialState: StartMenuState = { open: false };
 
