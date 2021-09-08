@@ -1,3 +1,5 @@
-[ ] Ventanas
+[X] Ventanas
 
 [ ] Los componentes deben tener un id único para ser identificados por el menú contextual
+
+[ ] Refactorizar
