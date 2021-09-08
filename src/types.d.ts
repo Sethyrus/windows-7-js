@@ -31,7 +31,7 @@ interface Position
 interface RootState
 {
   startMenu: StartMenuState;
-  windows: WindowsState;
+  windows: AppWindowsState;
   contextMenu: ContextMenuState;
 }
 
@@ -57,21 +57,22 @@ interface AppWindow
   // position: Position;
   // active: boolean;
   // maximized: boolean;
+  // pristine: boolean
 }
 
-interface WindowsReducerAction
+interface AppWindowsReducerAction
 {
   type: string;
-  payload: WindowsState;
+  payload: AppWindowsState;
 }
 
-interface WindowsState
+interface AppWindowsState
 {
-  windows: AppWindow[];
+  appWindows: AppWindow[];
 }
 
 type ContextMenuReducerDispatch = (action: ContextMenuReducerAction) => void;
 
 type StartMenuReducerDispatch = (action: StartMenuReducerAction) => void;
 
-type WindowsReducerDispatch = (action: WindowsReducerAction) => void;
+type AppWindowsReducerDispatch = (action: AppWindowsReducerAction) => void;

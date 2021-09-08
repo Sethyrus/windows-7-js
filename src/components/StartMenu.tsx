@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { openWindow } from "../state/actions/windows";
+import { openAppWindow } from "../state/actions/app-windows";
 import "../styles/StartMenu.scss";
 
 const StartMenu = (props: StartMenuProps) => {
@@ -8,7 +8,7 @@ const StartMenu = (props: StartMenuProps) => {
   return props.open ? (
     <div className="start-menu window glass clean">
       <div className="content window glass clean">
-        <button onClick={() => dispatch(openWindow({ id: "asd" }))}>
+        <button onClick={() => dispatch(openAppWindow({ id: "asd" }))}>
           Abrir ventana
         </button>
       </div>

@@ -5,6 +5,7 @@ import { toggleStartMenu } from "../state/actions/start-menu";
 import "../styles/Desktop.scss";
 import ContextMenu from "./ContextMenu";
 import TaskBar from "./TaskBar";
+import AppWindow from "./AppWindow";
 
 const Desktop = () => {
   const dispatch = useDispatch();
@@ -27,10 +28,9 @@ const Desktop = () => {
 
   return (
     <div className="desktop-container">
-      <div
-        className="desktop"
-        onClick={() => dispatch(toggleStartMenu(false))}
-      ></div>
+      <div className="desktop" onClick={() => dispatch(toggleStartMenu(false))}>
+        <AppWindow />
+      </div>
 
       <TaskBar />
 

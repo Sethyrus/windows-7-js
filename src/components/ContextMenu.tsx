@@ -8,7 +8,8 @@ const ContextMenu = () => {
   const [contextMenuElement, setContextMenuElement] =
     useState<HTMLDivElement | null>();
 
-  const [direction, setDirection] = useState<"up" | "down" | null>();
+  const [directionY, setDirectionY] = useState<"up" | "down" | null>(null);
+  const [offsetX, setOffsetX] = useState<number>(0);
 
   const contextMenu: ContextMenuState = useSelector(
     (state: RootState) => state.contextMenu
@@ -18,23 +19,38 @@ const ContextMenu = () => {
 
   useEffect(() => {
     if (contextMenuElement) {
+      /**
+       * Comprueba si el menú se desborda por abajo o no para determinar su
+       * dirección. Si lo hace, esta será hacia arriba.
+       */
       if (
-        Math.max(
-          document.body.scrollHeight,
-          document.body.offsetHeight,
-          document.documentElement.clientHeight,
-          document.documentElement.scrollHeight,
-          document.documentElement.offsetHeight
-        ) -
-          contextMenu.position.y <
+        document.body.clientHeight - contextMenu.position.y <
         contextMenuElement.clientHeight
       ) {
-        setDirection("up");
+        setDirectionY("up");
       } else {
-        setDirection("down");
+        setDirectionY("down");
+      }
+
+      /**
+       * Comprueba si el menú se desbora por la derecha o no para determinar
+       * su offset horizontal. Si lo hace, este será la cantidad de píxeles
+       * que sobresalga para que quede ajustado al borde.
+       */
+      if (
+        document.body.clientWidth - contextMenu.position.x <
+        contextMenuElement.clientWidth
+      ) {
+        setOffsetX(
+          contextMenuElement.clientWidth -
+            (document.body.clientWidth - contextMenu.position.x)
+        );
+      } else {
+        setOffsetX(0);
       }
     } else {
-      setDirection(null);
+      setDirectionY(null);
+      setOffsetX(0);
     }
   }, [contextMenuElement, contextMenu]);
 
@@ -47,10 +63,10 @@ const ContextMenu = () => {
       style={{
         width: 200,
         position: "absolute",
-        left: contextMenu.position.x,
+        left: contextMenu.position.x - offsetX,
         top: contextMenu.position.y,
         transform:
-          direction && direction === "up" ? "translateY(-100%)" : "none",
+          directionY && directionY === "up" ? "translateY(-100%)" : "none",
       }}
     >
       <ClickOutside onClick={() => dispatch(closeContextMenu())}>
