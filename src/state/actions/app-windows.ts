@@ -17,3 +17,22 @@ export const toggleAppWindowMaximizedStatus = (id: string, status?: boolean) => 
 
   dispatch({ type: ACTIONS.APP_WINDOWS.TOGGLE_APP_WINDOW_MAXIMIZED_STATUS, payload: appWindowsState });
 }
+
+export const updateAppWindowPosition = (id: string, position: Position) => async (dispatch: AppWindowsReducerDispatch) =>
+{
+  const appWindowsState = store.getState().appWindows;
+  const appWindowIndex = appWindowsState.appWindows.findIndex(appWindow => appWindow.id === id);
+
+  appWindowsState.appWindows[appWindowIndex].position = position;
+
+  dispatch({ type: ACTIONS.APP_WINDOWS.UPDATE_APP_WINDOW_POSITION, payload: appWindowsState });
+}
+
+export const closeAppWindow = (id: string) => async (dispatch: AppWindowsReducerDispatch) =>
+{
+  const appWindowsState = store.getState().appWindows;
+
+  appWindowsState.appWindows = appWindowsState.appWindows.filter(appWindow => appWindow.id !== id)
+
+  dispatch({ type: ACTIONS.APP_WINDOWS.CLOSE_APP_WINDOW, payload: appWindowsState });
+}

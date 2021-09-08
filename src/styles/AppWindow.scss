@@ -2,9 +2,10 @@
   position: absolute;
   display: flex;
   flex-direction: column;
+  cursor: default !important;
 
   .title-bar {
-    cursor: default;
+    cursor: default !important;
     user-select: none;
   }
 

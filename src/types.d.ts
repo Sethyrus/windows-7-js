@@ -12,6 +12,7 @@ interface AppWindow
 interface AppWindowProps
 {
   appWindow: AppWindow;
+  id: string;
 }
 
 interface AppWindowsReducerAction
