@@ -36,3 +36,19 @@ export const closeAppWindow = (id: string) => async (dispatch: AppWindowsReducer
 
   dispatch({ type: ACTIONS.APP_WINDOWS.CLOSE_APP_WINDOW, payload: appWindowsState });
 }
+
+export const setAppWindowActive = (id: string) => async (dispatch: AppWindowsReducerDispatch) =>
+{
+  const appWindowsState = store.getState().appWindows;
+
+  appWindowsState.appWindows.forEach(function (item, i)
+  {
+    if (item.id === id)
+    {
+      appWindowsState.appWindows.splice(i, 1);
+      appWindowsState.appWindows.push(item);
+    }
+  });
+
+  dispatch({ type: ACTIONS.APP_WINDOWS.SET_APP_WINDOW_ACTIVE, payload: appWindowsState });
+}

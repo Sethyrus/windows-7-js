@@ -6,7 +6,10 @@ import "../styles/Desktop.scss";
 import ContextMenu from "./ContextMenu";
 import TaskBar from "./TaskBar";
 import AppWindow from "./AppWindow";
-import { updateAppWindowPosition } from "../state/actions/app-windows";
+import {
+  setAppWindowActive,
+  updateAppWindowPosition,
+} from "../state/actions/app-windows";
 import { IDENTIFICATORS } from "../consts";
 
 const Desktop = () => {
@@ -63,15 +66,20 @@ const Desktop = () => {
               (appWindow) => appWindow.id === foundAppWindowId
             );
 
-            if (appWindow && !appWindow.maximized) {
-              setAppWindowId(foundAppWindowId);
+            if (appWindow) {
+              console.log('dispatching', appWindow.id);
+              dispatch(setAppWindowActive(appWindow.id));
 
-              setOffset({
-                x: e.clientX - appWindow.position.x,
-                y: e.clientY - appWindow.position.y,
-              });
+              if (!appWindow.maximized) {
+                setAppWindowId(foundAppWindowId);
 
-              setDragging(true);
+                setOffset({
+                  x: e.clientX - appWindow.position.x,
+                  y: e.clientY - appWindow.position.y,
+                });
+
+                setDragging(true);
+              }
             }
           }
         }}

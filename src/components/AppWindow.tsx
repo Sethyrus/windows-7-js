@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { IDENTIFICATORS } from "../consts";
 import {
   closeAppWindow,
+  setAppWindowActive,
   toggleAppWindowMaximizedStatus,
 } from "../state/actions/app-windows";
 import "../styles/AppWindow.scss";
@@ -30,15 +31,24 @@ const AppWindow = ({ appWindow, id }: AppWindowProps) => {
         left: getX(),
       }}
     >
-      <div className="title-bar" id={IDENTIFICATORS.APP_WINDOW_DRAGGABLE + "#" + id}>
-        <div className="title-bar-text" id={IDENTIFICATORS.APP_WINDOW_DRAGGABLE + "#" + id}>A window with contents</div>
+      <div
+        className="title-bar"
+        id={IDENTIFICATORS.APP_WINDOW_DRAGGABLE + "#" + id}
+      >
+        <div
+          className="title-bar-text"
+          id={IDENTIFICATORS.APP_WINDOW_DRAGGABLE + "#" + id}
+        >
+          A window with contents
+        </div>
         <div className="title-bar-controls">
           <button aria-label="Minimize"></button>
           <button
             aria-label={appWindow.maximized ? "Restore" : "Maximize"}
-            onClick={() =>
-              dispatch(toggleAppWindowMaximizedStatus(appWindow.id))
-            }
+            onClick={() => {
+              dispatch(toggleAppWindowMaximizedStatus(appWindow.id));
+              dispatch(setAppWindowActive(appWindow.id));
+            }}
           ></button>
           <button
             aria-label="Close"

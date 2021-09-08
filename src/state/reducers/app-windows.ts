@@ -18,6 +18,9 @@ function appWindows(state: AppWindowsState = initialState, action: AppWindowsRed
     case ACTIONS.APP_WINDOWS.CLOSE_APP_WINDOW: {
       return Object.assign({}, state, action.payload);
     }
+    case ACTIONS.APP_WINDOWS.SET_APP_WINDOW_ACTIVE: {
+      return Object.assign({}, state, action.payload);
+    }
     default: {
       return state
     }
