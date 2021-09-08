@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openContextMenu } from "../state/actions/context-menu";
 import { toggleStartMenu } from "../state/actions/start-menu";
 import "../styles/Desktop.scss";
@@ -9,6 +9,7 @@ import AppWindow from "./AppWindow";
 
 const Desktop = () => {
   const dispatch = useDispatch();
+  const appWindows = useSelector((state: RootState) => state.appWindows);
 
   const handleContextMenu = useCallback(
     (event) => {
@@ -29,7 +30,9 @@ const Desktop = () => {
   return (
     <div className="desktop-container">
       <div className="desktop" onClick={() => dispatch(toggleStartMenu(false))}>
-        <AppWindow />
+        {appWindows.appWindows.map((appWindow) => (
+          <AppWindow appWindow={appWindow} />
+        ))}
       </div>
 
       <TaskBar />

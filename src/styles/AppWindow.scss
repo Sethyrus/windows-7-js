@@ -1,0 +1,14 @@
+.app-window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+
+  .title-bar {
+    cursor: default;
+    user-select: none;
+  }
+
+  .window-body {
+    flex: 1;
+  }
+}

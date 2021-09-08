@@ -1,3 +1,30 @@
+interface AppWindow
+{
+  id: string;
+  position: Position;
+  dimensions: Dimensions;
+  title: string;
+  active: boolean;
+  maximized: boolean;
+  pristine: boolean;
+}
+
+interface AppWindowProps
+{
+  appWindow: AppWindow;
+}
+
+interface AppWindowsReducerAction
+{
+  type: string;
+  payload: AppWindowsState;
+}
+
+interface AppWindowsState
+{
+  appWindows: AppWindow[];
+}
+
 interface ButtonProps
 {
   text?: string;
@@ -22,6 +49,12 @@ interface ContextMenuReducerAction
   payload: ContextMenuState;
 }
 
+interface Dimensions
+{
+  width: number;
+  height: number;
+}
+
 interface Position
 {
   x: number;
@@ -31,7 +64,7 @@ interface Position
 interface RootState
 {
   startMenu: StartMenuState;
-  windows: AppWindowsState;
+  appWindows: AppWindowsState;
   contextMenu: ContextMenuState;
 }
 
@@ -51,28 +84,8 @@ interface StartMenuState
   open: boolean;
 }
 
-interface AppWindow
-{
-  id: string;
-  // position: Position;
-  // active: boolean;
-  // maximized: boolean;
-  // pristine: boolean
-}
-
-interface AppWindowsReducerAction
-{
-  type: string;
-  payload: AppWindowsState;
-}
-
-interface AppWindowsState
-{
-  appWindows: AppWindow[];
-}
+type AppWindowsReducerDispatch = (action: AppWindowsReducerAction) => void;
 
 type ContextMenuReducerDispatch = (action: ContextMenuReducerAction) => void;
 
 type StartMenuReducerDispatch = (action: StartMenuReducerAction) => void;
-
-type AppWindowsReducerDispatch = (action: AppWindowsReducerAction) => void;

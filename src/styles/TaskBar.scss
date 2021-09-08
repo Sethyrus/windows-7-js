@@ -1,8 +1,5 @@
 .taskbar {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  position: relative;
   display: block;
   height: 40px;
   border-top: solid 1px rgba(255, 255, 255, 0.5);
