@@ -5,12 +5,24 @@
   cursor: default !important;
   z-index: 1;
 
+  &:not(.active) {
+    box-shadow: none;
+  }
+
   .title-bar {
     cursor: default !important;
     user-select: none;
+
+    // .title-bar-text {
+    //   pointer-events: none;
+    // }
   }
 
-  .window-body {
+  .app-window-body {
     flex: 1;
+
+    .app-window-content {
+      pointer-events: none;
+    }
   }
 }

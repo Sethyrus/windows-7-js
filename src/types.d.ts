@@ -56,6 +56,12 @@ interface Dimensions
   height: number;
 }
 
+interface FunctionalityObject {
+  id: string;
+  component: AppComponent;
+  functionalities: Functionality[];
+}
+
 interface Position
 {
   x: number;
@@ -85,8 +91,12 @@ interface StartMenuState
   open: boolean;
 }
 
+type AppComponent = 'APP_WINDOW';
+
 type AppWindowsReducerDispatch = (action: AppWindowsReducerAction) => void;
 
 type ContextMenuReducerDispatch = (action: ContextMenuReducerAction) => void;
+
+type Functionality = 'APP_WINDOW_DRAGGABLE' | 'APP_WINDOW_FRONTABLE';
 
 type StartMenuReducerDispatch = (action: StartMenuReducerAction) => void;

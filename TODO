@@ -1,16 +1,15 @@
-[ ] Los componentes deben tener un id único para ser identificados por el menú contextual
-
-[ ] Refactorizar
+[ ] Es necesario un sistema que permita identificar el componente que se pulsa
+(tanto para acciones con click derecho como izquierdo) de forma concisa sin que
+esto interfiera con los hijos del componente.
+- Quizás se pueda simplemente con el onClick
 
 [ ] Revisar eventos de Redux lanzándose sin propósito
 
-[ ] Solo se deben poder mover ventanas con el click izquierdo
-
-[X] Ventanas
-
-[ ] El método de los IDs no permite aplicar varias acciones a un mismo elemento, pensar algo mejor
-
-[ ] Efecto que identifique la ventana resaltada
-
 [ ] Minimizar ventanas
 - Ventanas abiertas en el TaskBar
+
+[X] Efecto que identifique la ventana resaltada
+
+[X] Solo se deben poder mover ventanas con el click izquierdo
+
+[X] Ventanas

@@ -33,3 +33,7 @@ a {
 .window.glass.clean::before {
   background: none;
 }
+
+button {
+  pointer-events: initial;
+}

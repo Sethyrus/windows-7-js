@@ -1,4 +1,4 @@
-import "../styles/MenuButton.scss";
+import "../styles/StartMenuButton.scss";
 import StartMenu from "./StartMenu";
 import menu_icon from "../assets/images/menu_icon.png";
 import menu_icon_hover from "../assets/images/menu_icon_hover.png";

@@ -7,17 +7,22 @@ import ContextMenu from "./ContextMenu";
 import TaskBar from "./TaskBar";
 import AppWindow from "./AppWindow";
 import {
-  setAppWindowActive,
+  setFocusedAppWindow,
   updateAppWindowPosition,
 } from "../state/actions/app-windows";
-import { IDENTIFICATORS } from "../consts";
+import { getFunctionality } from "../helpers";
 
 const Desktop = () => {
-  const dispatch = useDispatch();
-  const appWindows = useSelector((state: RootState) => state.appWindows);
   const [offset, setOffset] = useState<Position>({ x: 0, y: 0 });
   const [appWindowId, setAppWindowId] = useState<string>("");
   const [appWindowEvent, setAppWindowEvent] = useState<any>();
+  const [dragging, setDragging] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
+  const appWindows = useSelector((state: RootState) => state.appWindows);
+  const startMenuOpen: boolean = useSelector(
+    (state: RootState) => state.startMenu.open
+  );
 
   const handleContextMenu = useCallback(
     (event) => {
@@ -26,8 +31,6 @@ const Desktop = () => {
     },
     [dispatch]
   );
-
-  const [dragging, setDragging] = useState<boolean>(false);
 
   useEffect(() => {
     if (dragging && appWindowEvent) {
@@ -47,48 +50,79 @@ const Desktop = () => {
     };
   }, [handleContextMenu]);
 
+  const onStartDragging = (e: any) => {
+    const functionalities = getFunctionality(e);
+
+    if (functionalities.length > 0) {
+      const draggableAppWindowFunctionalityIndex = functionalities.findIndex(
+        (functionalityObject) =>
+          functionalityObject.functionalities.includes("APP_WINDOW_DRAGGABLE")
+      );
+
+      const frontableAppWindowFunctionalityIndex = functionalities.findIndex(
+        (functionalityObject) =>
+          functionalityObject.functionalities.includes("APP_WINDOW_FRONTABLE")
+      );
+
+      if (draggableAppWindowFunctionalityIndex !== -1) {
+        const appWindow = appWindows.appWindows.find(
+          (appWindow) =>
+            appWindow.id ===
+            functionalities[draggableAppWindowFunctionalityIndex].id
+        );
+
+        if (appWindow) {
+          if (!appWindow.maximized) {
+            setAppWindowId(appWindow.id);
+
+            setOffset({
+              x: e.clientX - appWindow.position.x,
+              y: e.clientY - appWindow.position.y,
+            });
+
+            setDragging(true);
+          }
+        }
+      }
+
+      if (frontableAppWindowFunctionalityIndex !== -1) {
+        let isFocusedWindow = false;
+
+        const appWindow = appWindows.appWindows.find((appWindow, i) => {
+          if (i === appWindows.appWindows.length - 1) {
+            isFocusedWindow = true;
+          }
+
+          return (
+            appWindow.id ===
+            functionalities[frontableAppWindowFunctionalityIndex].id
+          );
+        });
+
+        if (appWindow && !isFocusedWindow)
+          dispatch(setFocusedAppWindow(appWindow.id));
+      }
+    }
+  };
+
+  const onDrag = (e: any) => {
+    setAppWindowEvent(e);
+  };
+
+  const onStopDragging = (e: any) => {
+    setDragging(false);
+  };
+
   return (
-    <div className="desktop-container" onMouseEnter={() => setDragging(false)}>
+    <div className="desktop-container" onMouseEnter={(e) => onStopDragging(e)}>
       <div
         className="desktop"
-        onClick={() => dispatch(toggleStartMenu(false))}
-        onMouseDown={(e: any) => {
-          if (
-            e.target.id.substring(0, e.target.id.indexOf("#")) ===
-            IDENTIFICATORS.APP_WINDOW_DRAGGABLE
-          ) {
-            const foundAppWindowId = e.target.id.substring(
-              e.target.id.indexOf("#") + 1,
-              e.target.id.length
-            );
-
-            const appWindow = appWindows.appWindows.find(
-              (appWindow) => appWindow.id === foundAppWindowId
-            );
-
-            if (appWindow) {
-              console.log('dispatching', appWindow.id);
-              dispatch(setAppWindowActive(appWindow.id));
-
-              if (!appWindow.maximized) {
-                setAppWindowId(foundAppWindowId);
-
-                setOffset({
-                  x: e.clientX - appWindow.position.x,
-                  y: e.clientY - appWindow.position.y,
-                });
-
-                setDragging(true);
-              }
-            }
-          }
-        }}
-        onMouseMove={(e) => {
-          setAppWindowEvent(e);
-        }}
-        onMouseUp={(e) => {
-          setDragging(false);
-        }}
+        onClick={() =>
+          startMenuOpen ? dispatch(toggleStartMenu(false)) : null
+        }
+        onMouseDown={(e) => onStartDragging(e)}
+        onMouseMove={(e) => onDrag(e)}
+        onMouseUp={(e) => onStopDragging(e)}
       >
         {appWindows.appWindows.map((appWindow, i) => (
           <AppWindow id={appWindow.id} appWindow={appWindow} key={i} />

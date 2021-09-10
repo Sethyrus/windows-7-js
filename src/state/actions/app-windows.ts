@@ -37,7 +37,7 @@ export const closeAppWindow = (id: string) => async (dispatch: AppWindowsReducer
   dispatch({ type: ACTIONS.APP_WINDOWS.CLOSE_APP_WINDOW, payload: appWindowsState });
 }
 
-export const setAppWindowActive = (id: string) => async (dispatch: AppWindowsReducerDispatch) =>
+export const setFocusedAppWindow = (id: string) => async (dispatch: AppWindowsReducerDispatch) =>
 {
   const appWindowsState = store.getState().appWindows;
 
