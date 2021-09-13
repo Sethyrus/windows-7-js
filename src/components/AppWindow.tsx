@@ -1,10 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setFunctionality } from "../helpers";
-import {
-  closeAppWindow,
-  setFocusedAppWindow,
-  toggleAppWindowMaximizedStatus,
-} from "../state/actions/app-windows";
+import { toggleAppWindowMaximizedStatus } from "../state/actions/app-windows";
 import "../styles/AppWindow.scss";
 
 const AppWindow = ({ appWindow, id }: AppWindowProps) => {
@@ -49,13 +45,19 @@ const AppWindow = ({ appWindow, id }: AppWindowProps) => {
           <button aria-label="Minimize"></button>
           <button
             aria-label={appWindow.maximized ? "Restore" : "Maximize"}
-            onClick={() => {
-              dispatch(toggleAppWindowMaximizedStatus(appWindow.id));
-            }}
+            // onClick={() => {
+            //   dispatch(toggleAppWindowMaximizedStatus(appWindow.id));
+            // }}
+            data-functionality={setFunctionality(id, "APP_WINDOW", [
+              "APP_WINDOW_MAXIMIZABLE",
+            ])}
           ></button>
           <button
             aria-label="Close"
-            onClick={() => dispatch(closeAppWindow(appWindow.id))}
+            // onClick={() => dispatch(closeAppWindow(appWindow.id))}
+            data-functionality={setFunctionality(id, "APP_WINDOW", [
+              "APP_WINDOW_CLOSABLE",
+            ])}
           ></button>
         </div>
       </div>

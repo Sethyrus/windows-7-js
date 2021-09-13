@@ -97,6 +97,6 @@ type AppWindowsReducerDispatch = (action: AppWindowsReducerAction) => void;
 
 type ContextMenuReducerDispatch = (action: ContextMenuReducerAction) => void;
 
-type Functionality = 'APP_WINDOW_DRAGGABLE' | 'APP_WINDOW_FRONTABLE';
+type Functionality = 'APP_WINDOW_DRAGGABLE' | 'APP_WINDOW_FRONTABLE' | 'APP_WINDOW_CLOSABLE' | 'APP_WINDOW_MAXIMIZABLE';
 
 type StartMenuReducerDispatch = (action: StartMenuReducerAction) => void;
