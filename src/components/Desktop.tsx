@@ -39,6 +39,7 @@ const Desktop = () => {
     const functionalities = getFunctionality(e);
 
     if (functionalities.length > 0) {
+      // Funcionalidad de cerrar ventana
       const closableAppWindowFunctionalityIndex = functionalities.findIndex(
         (functionalityObject) =>
           functionalityObject.functionalities.includes("APP_WINDOW_CLOSABLE")
@@ -59,6 +60,7 @@ const Desktop = () => {
         }
       }
 
+      // Funcionalidad de maximizar ventana
       const maximizableAppWindowFunctionalityIndex = functionalities.findIndex(
         (functionalityObject) =>
           functionalityObject.functionalities.includes("APP_WINDOW_MAXIMIZABLE")
@@ -79,14 +81,10 @@ const Desktop = () => {
         }
       }
 
+      // Funcionalidad de arrastrar ventana
       const draggableAppWindowFunctionalityIndex = functionalities.findIndex(
         (functionalityObject) =>
           functionalityObject.functionalities.includes("APP_WINDOW_DRAGGABLE")
-      );
-
-      const frontableAppWindowFunctionalityIndex = functionalities.findIndex(
-        (functionalityObject) =>
-          functionalityObject.functionalities.includes("APP_WINDOW_FRONTABLE")
       );
 
       if (draggableAppWindowFunctionalityIndex !== -1) {
@@ -109,6 +107,12 @@ const Desktop = () => {
           }
         }
       }
+
+      // Funcionalidad de poner ventana al frente
+      const frontableAppWindowFunctionalityIndex = functionalities.findIndex(
+        (functionalityObject) =>
+          functionalityObject.functionalities.includes("APP_WINDOW_FRONTABLE")
+      );
 
       if (frontableAppWindowFunctionalityIndex !== -1) {
         let isFocusedWindow = false;

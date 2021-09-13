@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import ClickOutside from "./ClickOutside";
 import { closeContextMenu } from "../state/actions/context-menu";
 import { useEffect, useState } from "react";
+import monitor from "../assets/icons/ui/monitor.png";
+import virtual_machine from "../assets/icons/ui/virtual-machine.png";
+import remote_desktop from "../assets/icons/ui/remote-desktop.png";
 
 const ContextMenu = () => {
   const [contextMenuElement, setContextMenuElement] =
@@ -102,21 +105,21 @@ const ContextMenu = () => {
           </li>
           <li role="menuitem">
             <img
-              src="https://img.icons8.com/color/18/000000/monitor--v1.png"
+              src={monitor}
               alt="screen-icon"
             />
             <a href="#menu">Screen resolution</a>
           </li>
           <li role="menuitem">
             <img
-              src="https://img.icons8.com/color/18/000000/virtual-machine2.png"
+              src={virtual_machine}
               alt="computer1-icon"
             />
             <a href="#menu">Gadgets</a>
           </li>
           <li role="menuitem">
             <img
-              src="https://img.icons8.com/color/18/000000/remote-desktop.png"
+              src={remote_desktop}
               alt="computer2-icon"
             />
             <a href="#menu">Personalize</a>

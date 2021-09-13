@@ -1,8 +1,8 @@
 import "../styles/StartMenuButton.scss";
 import StartMenu from "./StartMenu";
-import menu_icon from "../assets/images/menu_icon.png";
-import menu_icon_hover from "../assets/images/menu_icon_hover.png";
-import menu_icon_active from "../assets/images/menu_icon_active.png";
+import menu_icon from "../assets/icons/menu-icon/menu-icon.png";
+import menu_icon_hover from "../assets/icons/menu-icon/menu-icon-hover.png";
+import menu_icon_active from "../assets/icons/menu-icon/menu-icon-active.png";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleStartMenu } from "../state/actions/start-menu";
 
