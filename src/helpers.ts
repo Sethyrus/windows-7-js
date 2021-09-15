@@ -31,3 +31,54 @@ export const setFunctionality = (id: string, component: AppComponent, functional
 {
   return JSON.stringify({ id, functionalities });
 }
+
+export const getEventFunctionalities = (e: any): FunctionalityObject[] => {
+  const functionalities = getFunctionality(e);
+  const cleanFunctionalities: FunctionalityObject[] = [];
+
+  if (functionalities.length > 0) {
+    // Funcionalidad de cerrar ventana
+    const closableAppWindowFunctionalityIndex = functionalities.findIndex(
+      (functionalityObject) =>
+        functionalityObject.functionalities.includes("APP_WINDOW_CLOSABLE")
+    );
+
+    if (closableAppWindowFunctionalityIndex !== -1) {
+      cleanFunctionalities.push(functionalities[closableAppWindowFunctionalityIndex]);
+
+      return cleanFunctionalities;
+    }
+
+    // Funcionalidad de maximizar ventana
+    const maximizableAppWindowFunctionalityIndex = functionalities.findIndex(
+      (functionalityObject) =>
+        functionalityObject.functionalities.includes("APP_WINDOW_MAXIMIZABLE")
+    );
+
+    if (maximizableAppWindowFunctionalityIndex !== -1) {
+      cleanFunctionalities.push(functionalities[maximizableAppWindowFunctionalityIndex]);
+
+      return cleanFunctionalities;
+    }
+
+    // Funcionalidad de arrastrar ventana
+    const draggableAppWindowFunctionalityIndex = functionalities.findIndex(
+      (functionalityObject) =>
+        functionalityObject.functionalities.includes("APP_WINDOW_DRAGGABLE")
+    );
+
+    if (draggableAppWindowFunctionalityIndex !== -1)
+      cleanFunctionalities.push(functionalities[draggableAppWindowFunctionalityIndex]);
+
+    // Funcionalidad de poner ventana al frente
+    const frontableAppWindowFunctionalityIndex = functionalities.findIndex(
+      (functionalityObject) =>
+        functionalityObject.functionalities.includes("APP_WINDOW_FRONTABLE")
+    );
+
+    if (frontableAppWindowFunctionalityIndex !== -1)
+      cleanFunctionalities.push(functionalities[frontableAppWindowFunctionalityIndex]);
+  }
+
+  return cleanFunctionalities;
+}

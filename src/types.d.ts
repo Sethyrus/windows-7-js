@@ -4,7 +4,7 @@ interface AppWindow
   position: Position;
   dimensions: Dimensions;
   title: string;
-  active: boolean;
+  minimized: boolean;
   maximized: boolean;
   pristine: boolean;
 }
@@ -50,13 +50,40 @@ interface ContextMenuReducerAction
   payload: ContextMenuState;
 }
 
+interface DesktopItem
+{
+  id: string;
+  position: Position;
+  title: string;
+  pristine: boolean;
+}
+
+interface DesktopItemsReducerAction
+{
+  type: string;
+  payload: DesktopItemsState;
+}
+
+interface DesktopItemsState
+{
+  desktopItems: DesktopItem[];
+}
+
 interface Dimensions
 {
   width: number;
   height: number;
 }
 
-interface FunctionalityObject {
+interface FunctionalityEvent
+{
+  component: AppComponent;
+  entity: AppWindow | DesktopItem;
+  action: FunctionalityEventAction;
+}
+
+interface FunctionalityObject
+{
   id: string;
   component: AppComponent;
   functionalities: Functionality[];
@@ -91,11 +118,13 @@ interface StartMenuState
   open: boolean;
 }
 
-type AppComponent = 'APP_WINDOW';
+type AppComponent = 'APP_WINDOW' | 'DESKTOP_ITEM';
 
 type AppWindowsReducerDispatch = (action: AppWindowsReducerAction) => void;
 
 type ContextMenuReducerDispatch = (action: ContextMenuReducerAction) => void;
+
+type FunctionalityEventAction = 'DRAG' | 'CLOSE' | 'MAXIMIZE' | 'FRONT';
 
 type Functionality = 'APP_WINDOW_DRAGGABLE' | 'APP_WINDOW_FRONTABLE' | 'APP_WINDOW_CLOSABLE' | 'APP_WINDOW_MAXIMIZABLE';
 

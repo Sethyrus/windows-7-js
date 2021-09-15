@@ -3,6 +3,8 @@
 esto interfiera con los hijos del componente.
 - Quizás se pueda simplemente con el onClick
 
+[ ] Fix: Si pulsando y draggeando sacas el ratón de la pantalla se mantiene el dragging
+
 [ ] Revisar eventos de Redux lanzándose sin propósito
 
 [ ] Minimizar ventanas

@@ -13,14 +13,11 @@ import {
   toggleAppWindowMaximizedStatus,
   updateAppWindowPosition,
 } from "../state/actions/app-windows";
-import { getFunctionality } from "../helpers";
+import { getEventFunctionalities } from "../helpers";
 
 const Desktop = () => {
   const [offset, setOffset] = useState<Position>({ x: 0, y: 0 });
-  const [eventAppWindow, setEventAppWindow] = useState<AppWindow>();
-  const [dragging, setDragging] = useState<boolean>(false);
-  const [closing, setClosing] = useState<boolean>(false);
-  const [maximizing, setMaximizing] = useState<boolean>(false);
+  const [currEvent, setCurrEvent] = useState<FunctionalityEvent>();
 
   const dispatch = useDispatch();
   const appWindows = useSelector((state: RootState) => state.appWindows);
@@ -37,167 +34,154 @@ const Desktop = () => {
   );
 
   const onMouseDown = (e: any) => {
-    const functionalities = getFunctionality(e);
+    const functionalities = getEventFunctionalities(e);
 
-    if (functionalities.length > 0) {
-      // Funcionalidad de cerrar ventana
-      const closableAppWindowFunctionalityIndex = functionalities.findIndex(
-        (functionalityObject) =>
-          functionalityObject.functionalities.includes("APP_WINDOW_CLOSABLE")
+    functionalities.forEach((functionalityObject) => {
+      functionalityObject.functionalities.forEach((functionality) =>
+        initFunctionality(functionalityObject.id, functionality, e)
       );
+    });
+  };
 
-      if (closableAppWindowFunctionalityIndex !== -1) {
-        const appWindow = appWindows.appWindows.find((appWindow, i) => {
-          return (
-            appWindow.id ===
-            functionalities[closableAppWindowFunctionalityIndex].id
-          );
-        });
+  const initFunctionality = (
+    id: string,
+    functionality: Functionality,
+    e: any
+  ) => {
+    let appWindow: AppWindow | undefined;
+
+    switch (functionality) {
+      case "APP_WINDOW_CLOSABLE":
+        appWindow = appWindows.appWindows.find(
+          (appWindow, i) => appWindow.id === id
+        );
 
         if (appWindow) {
-          setEventAppWindow(appWindow);
-          setClosing(true);
-          return;
+          setCurrEvent({
+            component: "APP_WINDOW",
+            entity: appWindow,
+            action: "CLOSE",
+          });
         }
-      }
-
-      // Funcionalidad de maximizar ventana
-      const maximizableAppWindowFunctionalityIndex = functionalities.findIndex(
-        (functionalityObject) =>
-          functionalityObject.functionalities.includes("APP_WINDOW_MAXIMIZABLE")
-      );
-
-      if (maximizableAppWindowFunctionalityIndex !== -1) {
-        const appWindow = appWindows.appWindows.find((appWindow, i) => {
-          return (
-            appWindow.id ===
-            functionalities[maximizableAppWindowFunctionalityIndex].id
-          );
-        });
-
-        if (appWindow) {
-          setEventAppWindow(appWindow);
-          setMaximizing(true);
-          return;
-        }
-      }
-
-      // Funcionalidad de arrastrar ventana
-      const draggableAppWindowFunctionalityIndex = functionalities.findIndex(
-        (functionalityObject) =>
-          functionalityObject.functionalities.includes("APP_WINDOW_DRAGGABLE")
-      );
-
-      if (draggableAppWindowFunctionalityIndex !== -1) {
-        const appWindow = appWindows.appWindows.find(
-          (appWindow) =>
-            appWindow.id ===
-            functionalities[draggableAppWindowFunctionalityIndex].id
+        break;
+      case "APP_WINDOW_DRAGGABLE":
+        appWindow = appWindows.appWindows.find(
+          (appWindow) => appWindow.id === id
         );
 
         if (appWindow) {
           if (!appWindow.maximized) {
-            setEventAppWindow(appWindow);
+            setCurrEvent({
+              component: "APP_WINDOW",
+              entity: appWindow,
+              action: "DRAG",
+            });
 
             setOffset({
               x: e.clientX - appWindow.position.x,
               y: e.clientY - appWindow.position.y,
             });
-
-            setDragging(true);
           }
         }
-      }
-
-      // Funcionalidad de poner ventana al frente
-      const frontableAppWindowFunctionalityIndex = functionalities.findIndex(
-        (functionalityObject) =>
-          functionalityObject.functionalities.includes("APP_WINDOW_FRONTABLE")
-      );
-
-      if (frontableAppWindowFunctionalityIndex !== -1) {
+        break;
+      case "APP_WINDOW_FRONTABLE":
         let isFocusedWindow = false;
 
-        const appWindow = appWindows.appWindows.find((appWindow, i) => {
+        appWindow = appWindows.appWindows.find((appWindow, i) => {
           if (i === appWindows.appWindows.length - 1) {
             isFocusedWindow = true;
           }
 
-          return (
-            appWindow.id ===
-            functionalities[frontableAppWindowFunctionalityIndex].id
-          );
+          return appWindow.id === id;
         });
 
         if (appWindow && !isFocusedWindow)
           dispatch(setFocusedAppWindow(appWindow.id));
-      }
+        break;
+      case "APP_WINDOW_MAXIMIZABLE":
+        appWindow = appWindows.appWindows.find(
+          (appWindow, i) => appWindow.id === id
+        );
+
+        if (appWindow) {
+          setCurrEvent({
+            component: "APP_WINDOW",
+            entity: appWindow,
+            action: "MAXIMIZE",
+          });
+        }
+        break;
     }
   };
 
   const onMouseMove = (e: any) => {
-    if (dragging && eventAppWindow) {
-      const newX = e.clientX - offset.x,
-        newY = e.clientY - offset.y;
+    if (currEvent) {
+      if (currEvent.action === 'DRAG') {
+        if (currEvent.component === "APP_WINDOW") {
+          const newX = e.clientX - offset.x,
+            newY = e.clientY - offset.y;
 
-      if (
-        newX !== eventAppWindow?.position.x &&
-        newY !== eventAppWindow?.position.y
-      )
-        dispatch(
-          updateAppWindowPosition(eventAppWindow.id, {
-            x: newX,
-            y: newY,
-          })
-        );
+          if (
+            newX !== currEvent.entity.position.x &&
+            newY !== currEvent.entity.position.y
+          )
+            dispatch(
+              updateAppWindowPosition(currEvent.entity.id, {
+                x: newX,
+                y: newY,
+              })
+            );
+        }
+      }
     }
   };
 
   const onMouseUp = (e: any) => {
-    if (closing) {
-      const functionalities = getFunctionality(e);
-      const closableAppWindowFunctionalityIndex = functionalities.findIndex(
-        (functionalityObject) =>
-          functionalityObject.functionalities.includes("APP_WINDOW_CLOSABLE")
+    const functionalities = getEventFunctionalities(e);
+
+    functionalities.forEach((functionalityObject) => {
+      functionalityObject.functionalities.forEach((functionality) =>
+        endFunctionality(functionalityObject.id, functionality, e)
       );
+    });
+  };
 
-      if (closableAppWindowFunctionalityIndex !== -1) {
-        const appWindow = appWindows.appWindows.find(
-          (appWindow) =>
-            appWindow.id ===
-            functionalities[closableAppWindowFunctionalityIndex].id
-        );
+  const endFunctionality = (
+    id: string,
+    functionality: Functionality,
+    e: any
+  ) => {
+    let appWindow: AppWindow | undefined;
 
-        if (appWindow && appWindow.id === eventAppWindow?.id) {
-          dispatch(closeAppWindow(appWindow.id));
+    switch (functionality) {
+      case "APP_WINDOW_CLOSABLE":
+        if (
+          currEvent?.action === "CLOSE" &&
+          currEvent.component === "APP_WINDOW"
+        ) {
+          appWindow = appWindows.appWindows.find(
+            (appWindow) => appWindow.id === id
+          );
+
+          if (appWindow && appWindow.id === currEvent?.entity.id)
+            dispatch(closeAppWindow(appWindow.id));
         }
-      }
 
-      setClosing(false);
-    } else if (maximizing) {
-      const functionalities = getFunctionality(e);
+        break;
+      case "APP_WINDOW_MAXIMIZABLE":
+        if (
+          currEvent?.action === "MAXIMIZE" &&
+          currEvent.component === "APP_WINDOW"
+        ) {
+          appWindow = appWindows.appWindows.find(
+            (appWindow) => appWindow.id === id
+          );
 
-      const maximizableAppWindowFunctionalityIndex = functionalities.findIndex(
-        (functionalityObject) =>
-          functionalityObject.functionalities.includes("APP_WINDOW_MAXIMIZABLE")
-      );
-
-      if (maximizableAppWindowFunctionalityIndex !== -1) {
-        const appWindow = appWindows.appWindows.find(
-          (appWindow) =>
-            appWindow.id ===
-            functionalities[maximizableAppWindowFunctionalityIndex].id
-        );
-
-        if (appWindow && appWindow.id === eventAppWindow?.id) {
-          dispatch(toggleAppWindowMaximizedStatus(appWindow.id));
+          if (appWindow && appWindow.id === currEvent?.entity.id)
+            dispatch(toggleAppWindowMaximizedStatus(appWindow.id));
         }
-      }
-
-      setMaximizing(false);
+        break;
     }
-
-    if (dragging) setDragging(false);
   };
 
   useEffect(() => {
@@ -219,9 +203,7 @@ const Desktop = () => {
         onMouseUp={(e) => onMouseUp(e)}
       >
         <DesktopItem />
-        <DesktopItem />
-        <DesktopItem />
-        <DesktopItem />
+
         {appWindows.appWindows.map((appWindow, i) => (
           <AppWindow id={appWindow.id} appWindow={appWindow} key={i} />
         ))}

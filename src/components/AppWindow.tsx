@@ -57,7 +57,7 @@ const AppWindow = ({ appWindow, id }: AppWindowProps) => {
       </div>
       <div className="window-body app-window-body">
         <div className="app-window-content">
-          <p>There's so much room for activities!</p>
+          <p>Contenido de la p*ta ventana ._.</p>
         </div>
       </div>
     </div>

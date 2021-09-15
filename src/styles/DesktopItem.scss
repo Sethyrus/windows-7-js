@@ -7,13 +7,13 @@
   z-index: 2;
   padding: 4px;
   margin-bottom: 16px;
+  user-select: none;
 
   p {
     text-align: center;
     color: white;
     text-shadow: 0 2px 2px #000;
     cursor: default;
-    user-select: none;
     display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;

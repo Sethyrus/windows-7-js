@@ -23,7 +23,7 @@ const StartMenu = (props: StartMenuProps) => {
                   height: 320,
                 },
                 title: 'Testing the f*cking windows',
-                active: true,
+                minimized: true,
                 maximized: false,
                 pristine: true,
               })
