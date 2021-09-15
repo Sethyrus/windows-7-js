@@ -8,7 +8,7 @@ const StartMenu = (props: StartMenuProps) => {
 
   return props.open ? (
     <div className="start-menu window glass clean">
-      <div className="content window glass clean">
+      <div className="start-menu-content window glass clean">
         <button
           onClick={() =>
             dispatch(
