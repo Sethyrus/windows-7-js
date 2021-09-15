@@ -13,9 +13,9 @@ const StartMenuButton = () => {
   );
 
   return (
-    <div className="start-menu-button-container">
+    <div className="start-menu-button">
       <div
-        className="start-menu-button"
+        className="start-menu-button-content"
         onClick={() => dispath(toggleStartMenu())}
       >
         <div className="start-menu-button-icon default">

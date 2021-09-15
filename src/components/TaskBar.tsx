@@ -4,9 +4,9 @@ import StartMenuButton from "./StartMenuButton";
 
 const TaskBar = () => {
   return (
-    <div className="taskbar">
+    <div className="task-bar">
       <div className="overlay"></div>
-      <div className="taskbar-content">
+      <div className="task-bar-content">
         <StartMenuButton />
         <div className="spacer" />
         <Peek />

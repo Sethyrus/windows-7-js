@@ -59,7 +59,7 @@ const ContextMenu = () => {
 
   return contextMenu.open ? (
     <div
-      className="context-menu-container"
+      className="context-menu"
       ref={(divElement) => {
         setContextMenuElement(divElement);
       }}

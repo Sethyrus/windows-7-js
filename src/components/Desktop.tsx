@@ -4,6 +4,7 @@ import { openContextMenu } from "../state/actions/context-menu";
 import { toggleStartMenu } from "../state/actions/start-menu";
 import "../styles/Desktop.scss";
 import ContextMenu from "./ContextMenu";
+import DesktopItem from "./DesktopItem";
 import TaskBar from "./TaskBar";
 import AppWindow from "./AppWindow";
 import {
@@ -207,9 +208,9 @@ const Desktop = () => {
   }, [handleContextMenu]);
 
   return (
-    <div className="desktop-container" onMouseEnter={(e) => onMouseUp(e)}>
+    <div className="desktop" onMouseEnter={(e) => onMouseUp(e)}>
       <div
-        className="desktop"
+        className="desktop-layout"
         onClick={() =>
           startMenuOpen ? dispatch(toggleStartMenu(false)) : null
         }
@@ -217,6 +218,10 @@ const Desktop = () => {
         onMouseMove={(e) => onMouseMove(e)}
         onMouseUp={(e) => onMouseUp(e)}
       >
+        <DesktopItem />
+        <DesktopItem />
+        <DesktopItem />
+        <DesktopItem />
         {appWindows.appWindows.map((appWindow, i) => (
           <AppWindow id={appWindow.id} appWindow={appWindow} key={i} />
         ))}
