@@ -78,6 +78,15 @@ export const getEventFunctionalities = (e: any): FunctionalityObject[] => {
 
     if (frontableAppWindowFunctionalityIndex !== -1)
       cleanFunctionalities.push(functionalities[frontableAppWindowFunctionalityIndex]);
+
+    // Funcionalidad de seleccionar en el escritorio
+    const desktopSelectionFunctionalityIndex = functionalities.findIndex(
+      (functionalityObject) =>
+        functionalityObject.functionalities.includes("DESKTOP_SELECTABLE")
+    );
+
+    if (desktopSelectionFunctionalityIndex !== -1 && cleanFunctionalities.length === 0)
+      cleanFunctionalities.push(functionalities[desktopSelectionFunctionalityIndex]);
   }
 
   return cleanFunctionalities;

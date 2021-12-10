@@ -78,7 +78,7 @@ interface Dimensions
 interface FunctionalityEvent
 {
   component: AppComponent;
-  entity: AppWindow | DesktopItem;
+  entity: AppWindow | DesktopItem | DesktopSelection;
   action: FunctionalityEventAction;
 }
 
@@ -102,6 +102,16 @@ interface RootState
   contextMenu: ContextMenuState;
 }
 
+interface DesktopSelection
+{
+  id: string;
+  position: Position;
+  // title: string;
+  // pristine: boolean;
+  width: number;
+  height: number;
+}
+
 interface StartMenuProps
 {
   open: boolean;
@@ -118,14 +128,16 @@ interface StartMenuState
   open: boolean;
 }
 
-type AppComponent = 'APP_WINDOW' | 'DESKTOP_ITEM';
+type AppComponent = 'APP_WINDOW' | 'DESKTOP_ITEM' | 'DESKTOP';
 
 type AppWindowsReducerDispatch = (action: AppWindowsReducerAction) => void;
 
 type ContextMenuReducerDispatch = (action: ContextMenuReducerAction) => void;
 
-type FunctionalityEventAction = 'DRAG' | 'CLOSE' | 'MAXIMIZE' | 'FRONT';
+type DesktopItemsReducerDispatch = (action: DesktopItemsReducerAction) => void;
 
-type Functionality = 'APP_WINDOW_DRAGGABLE' | 'APP_WINDOW_FRONTABLE' | 'APP_WINDOW_CLOSABLE' | 'APP_WINDOW_MAXIMIZABLE';
+type FunctionalityEventAction = 'DRAG' | 'CLOSE' | 'MAXIMIZE' | 'FRONT' | 'SELECT';
+
+type Functionality = 'APP_WINDOW_DRAGGABLE' | 'APP_WINDOW_FRONTABLE' | 'APP_WINDOW_CLOSABLE' | 'APP_WINDOW_MAXIMIZABLE' | 'DESKTOP_SELECTABLE';
 
 type StartMenuReducerDispatch = (action: StartMenuReducerAction) => void;

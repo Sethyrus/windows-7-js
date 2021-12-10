@@ -13,11 +13,11 @@ import {
   toggleAppWindowMaximizedStatus,
   updateAppWindowPosition,
 } from "../state/actions/app-windows";
-import { getEventFunctionalities } from "../helpers";
+import { getEventFunctionalities, setFunctionality } from "../helpers";
 
 const Desktop = () => {
-  const [offset, setOffset] = useState<Position>({ x: 0, y: 0 });
   const [currEvent, setCurrEvent] = useState<FunctionalityEvent>();
+  const [offset, setOffset] = useState<Position>({ x: 0, y: 0 });
 
   const dispatch = useDispatch();
   const appWindows = useSelector((state: RootState) => state.appWindows);
@@ -111,26 +111,44 @@ const Desktop = () => {
           });
         }
         break;
+      case "DESKTOP_SELECTABLE":
+        setCurrEvent({
+          component: "DESKTOP",
+          action: "SELECT",
+          entity: {
+            id: "",
+            position: {
+              x: e.clientX,
+              y: e.clientY,
+            },
+            width: 0,
+            height: 0,
+          },
+        });
+        break;
     }
   };
 
   const onMouseMove = (e: any) => {
     if (currEvent) {
-      if (currEvent.action === 'DRAG') {
+      if (currEvent.action === "DRAG") {
         if (currEvent.component === "APP_WINDOW") {
           const newX = e.clientX - offset.x,
             newY = e.clientY - offset.y;
 
           if (
-            newX !== currEvent.entity.position.x &&
-            newY !== currEvent.entity.position.y
+            newX !== currEvent.entity?.position.x &&
+            newY !== currEvent.entity?.position.y
           )
             dispatch(
-              updateAppWindowPosition(currEvent.entity.id, {
+              updateAppWindowPosition(currEvent.entity?.id || "", {
                 x: newX,
                 y: newY,
               })
             );
+        }
+      } else if (currEvent.action === "SELECT") {
+        if (currEvent.component === "DESKTOP") {
         }
       }
     }
@@ -181,8 +199,10 @@ const Desktop = () => {
             dispatch(toggleAppWindowMaximizedStatus(appWindow.id));
         }
         break;
-    }
-  };
+      }
+
+      setCurrEvent(undefined);
+    };
 
   useEffect(() => {
     document.addEventListener("contextmenu", handleContextMenu);
@@ -195,6 +215,9 @@ const Desktop = () => {
     <div className="desktop" onMouseEnter={(e) => onMouseUp(e)}>
       <div
         className="desktop-layout"
+        data-functionality={setFunctionality("", "DESKTOP", [
+          "DESKTOP_SELECTABLE",
+        ])}
         onClick={() =>
           startMenuOpen ? dispatch(toggleStartMenu(false)) : null
         }
@@ -203,6 +226,12 @@ const Desktop = () => {
         onMouseUp={(e) => onMouseUp(e)}
       >
         <DesktopItem />
+
+        {currEvent &&
+          currEvent.action === "SELECT" &&
+          currEvent.component === "DESKTOP" && (
+            <div className="selection"></div>
+          )}
 
         {appWindows.appWindows.map((appWindow, i) => (
           <AppWindow id={appWindow.id} appWindow={appWindow} key={i} />

@@ -1,11 +1,13 @@
+import { ACTIONS } from './../../consts';
+import store from '..';
 
 
-// export const updateDesktopItemPosition = (id: string, position: Position) => async (dispatch: AppWindowsReducerDispatch) =>
-// {
-//   const appWindowsState = store.getState().appWindows;
-//   const appWindowIndex = appWindowsState.appWindows.findIndex(appWindow => appWindow.id === id);
+export const updateDesktopItemPosition = (id: string, position: Position) => async (dispatch: DesktopItemsReducerDispatch) =>
+{
+  const desktopItemsState = store.getState().desktopItems;
+  const desktopItemIndex = desktopItemsState.desktopItems.findIndex(desktopItem => desktopItem.id === id);
 
-//   appWindowsState.appWindows[appWindowIndex].position = position;
+  desktopItemsState.desktopItems[desktopItemIndex].position = position;
 
-//   dispatch({ type: ACTIONS.APP_WINDOWS.UPDATE_APP_WINDOW_POSITION, payload: appWindowsState });
-// }
+  dispatch({ type: ACTIONS.DESKTOP_ITEMS.UPDATE_DESKTOP_ITEM_POSITION, payload: desktopItemsState });
+}

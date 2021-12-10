@@ -21,4 +21,13 @@
   justify-content: left;
   align-items: start;
   padding: 5px 0;
+
+  .selection {
+    position: absolute;
+    width: 300px;
+    height: 200px;
+    border: #0000ff;
+    background-color: rgba($color: #0000ff, $alpha: 0.3);
+    z-index: 2;
+  }
 }
